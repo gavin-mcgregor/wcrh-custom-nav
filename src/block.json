@@ -3,10 +3,8 @@
 	"apiVersion": 3,
 	"name": "wcrh/wcrh-custom-nav",
 	"version": "0.1.0",
-	"title": "WCRH Custom Nav",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Add a custom nav to your website",
+	"title": "Custom Nav",
+	"category": "custom-block",
 	"example": {},
 	"supports": {
 		"html": false
