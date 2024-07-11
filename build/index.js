@@ -18,7 +18,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -33,6 +35,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 /**
@@ -51,10 +54,88 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Element} Element to render.
  */
-function Edit() {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+function Edit({
+  attributes,
+  setAttributes
+}) {
+  // Attributes
+  const {
+    links
+  } = attributes;
+
+  // Remove Nav Item
+  const removeNavItem = index => {
+    const newLinks = [...links];
+    newLinks.splice(index, 1);
+    setAttributes({
+      links: newLinks
+    });
+  };
+
+  // Update Nav Item
+  const updateNavItem = (index, value, field) => {
+    const newLinks = [...links];
+    newLinks[index] = {
+      ...newLinks[index],
+      [field]: value
+    };
+    setAttributes({
+      links: newLinks
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Settings")
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
+    direction: "column"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    variant: "primary",
+    onClick: () => {
+      const newNavItem = {
+        text: "",
+        url: "",
+        target: "_blank",
+        group: false
+      };
+      setAttributes({
+        links: [...links, newNavItem]
+      });
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Link"))))), links && links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(`Nav Item ${index + 1}: ${navItem.text}`),
+    key: index
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
+    direction: "column"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Link Text"),
+    value: navItem.text,
+    onChange: value => updateNavItem(index, value, "text")
+  }), !navItem.group && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Link Url"),
+    value: navItem.url,
+    onChange: value => updateNavItem(index, value, "url")
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Link Target"),
+    selected: navItem.target,
+    options: [{
+      label: "New Tab",
+      value: "_blank"
+    }, {
+      label: "Same Tab",
+      value: "_self"
+    }],
+    onChange: value => updateNavItem(index, value, "target")
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    checked: !!navItem.group,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Item has submenu"),
+    onChange: value => updateNavItem(index, value, "group")
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    variant: "secondary",
+    onClick: () => removeNavItem(index)
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Remove Link"))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('WCRH Custom Nav – hello from the editor!', 'wcrh-custom-nav'));
+  }, links.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    key: index
+  }, navItem.text))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Nothing to list"))));
 }
 
 /***/ }),
@@ -161,6 +242,16 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -177,7 +268,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wcrh/wcrh-custom-nav","version":"0.1.0","title":"Custom Nav","category":"custom-block","example":{},"supports":{"html":false},"textdomain":"wcrh-custom-nav","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wcrh/wcrh-custom-nav","version":"0.1.0","title":"Custom Nav","category":"custom-block","example":{},"attributes":{"links":{"type":"array","default":[]}},"supports":{"html":false},"textdomain":"wcrh-custom-nav","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
 
 /***/ })
 

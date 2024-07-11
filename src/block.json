@@ -6,6 +6,12 @@
 	"title": "Custom Nav",
 	"category": "custom-block",
 	"example": {},
+	"attributes": {
+		"links": {
+			"type": "array",
+			"default": []
+		}
+	},
 	"supports": {
 		"html": false
 	},

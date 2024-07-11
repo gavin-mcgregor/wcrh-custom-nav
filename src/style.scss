@@ -5,8 +5,18 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-wcrh-wcrh-custom-nav {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+.wp-block-wcrh-wcrh-custom-nav ul {
+	display: flex;
+	gap: 1rem;
+	margin: 0;
+	padding: 0;
+}
+
+.wp-block-wcrh-wcrh-custom-nav li {
+	list-style: none;
+}
+
+.wp-block-wcrh-wcrh-custom-nav a {
+	text-decoration: none;
+	transition: color 0.3s ease-in;
 }
