@@ -26,7 +26,40 @@ var __webpack_exports__ = {};
  */
 
 /* eslint-disable no-console */
-console.log('Hello World! (from wcrh-wcrh-custom-nav block)');
+
+function handleMobMenu() {
+  // Open button
+  const openButton = document.querySelector("#open-mobile-menu");
+  openButton.addEventListener("click", toggleMobMenu);
+
+  // Close button
+  const closeButton = document.querySelector("#close-mobile-menu");
+  closeButton.addEventListener("click", toggleMobMenu);
+  function toggleMobMenu() {
+    // Toggle class
+    const body = document.querySelector("body");
+
+    // Transition height
+    const ul = document.querySelector("nav ul");
+    if (!body.classList.contains("menu-open")) {
+      // Glide Open
+      body.classList.add("menu-open");
+      ul.classList.add("visible");
+      setTimeout(() => {
+        ul.classList.add("anim");
+      }, 10);
+    } else {
+      // Glide Closed
+      ul.classList.remove("anim");
+      setTimeout(() => {
+        body.classList.remove("menu-open");
+        ul.classList.remove("visible");
+      }, 300);
+    }
+  }
+}
+window.addEventListener("DOMContentLoaded", handleMobMenu);
+
 /* eslint-enable no-console */
 /******/ })()
 ;

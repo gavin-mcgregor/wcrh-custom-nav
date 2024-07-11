@@ -10,6 +10,9 @@
 		"links": {
 			"type": "array",
 			"default": []
+		},
+		"menuColor": {
+			"type": "string"
 		}
 	},
 	"supports": {
