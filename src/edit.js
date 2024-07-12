@@ -50,6 +50,25 @@ export default function Edit({ attributes, setAttributes }) {
 	// Attributes
 	const { links, menuColor } = attributes;
 
+	// Drag and Drop Handlers
+	const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+
+	const handleDragStart = (index) => () => {
+		setDraggedItemIndex(index);
+	};
+
+	const handleDragOver = (index) => (e) => {
+		e.preventDefault();
+	};
+
+	const handleDrop = (index) => () => {
+		const newLinks = [...links];
+		const [draggedItem] = newLinks.splice(draggedItemIndex, 1);
+		newLinks.splice(index, 0, draggedItem);
+		setAttributes({ links: newLinks });
+		setDraggedItemIndex(null);
+	};
+
 	// Remove Nav Item
 	const removeNavItem = (index) => {
 		const newLinks = [...links];
@@ -95,21 +114,26 @@ export default function Edit({ attributes, setAttributes }) {
 					activeClass="active-tab"
 					tabs={[
 						{
-							name: "links-settings",
-							title: __("Link Settings"),
+							name: "link-settings",
+							title: __("Links"),
 							className: "links-settings-tab",
 						},
 						{
-							name: "menu-settings",
-							title: __("Menu Settings"),
-							className: "menu-settings-tab",
+							name: "nav-order",
+							title: __("Order"),
+							className: "nav-order-tab",
+						},
+						{
+							name: "mobile-settings",
+							title: __("Mobile"),
+							className: "mobile-settings-tab",
 						},
 					]}
 				>
 					{(tab) => (
 						<>
-							{tab.name === "menu-settings" && (
-								<PanelBody title={__("Menu Settings")}>
+							{tab.name === "mobile-settings" && (
+								<PanelBody title={__("Mobile Settings")}>
 									<Flex direction="column">
 										<FlexItem>
 											<p>
@@ -132,7 +156,38 @@ export default function Edit({ attributes, setAttributes }) {
 									</Flex>
 								</PanelBody>
 							)}
-							{tab.name === "links-settings" && (
+							{tab.name === "nav-order" && (
+								<PanelBody title={__("Nav Order")}>
+									<Flex direction="column">
+										<FlexItem>
+											<p>Drag and drop the links below to change the order.</p>
+										</FlexItem>
+										<FlexItem>
+											{links.length > 0 ? (
+												<ul className="nav-order-list">
+													{links.map((navItem, index) => (
+														<li
+															key={index}
+															draggable
+															onDragStart={handleDragStart(index)}
+															onDragOver={handleDragOver(index)}
+															onDrop={handleDrop(index)}
+															style={{ cursor: "move" }}
+														>
+															{navItem.text}
+														</li>
+													))}
+												</ul>
+											) : (
+												<ul>
+													<li>Nothing to list</li>
+												</ul>
+											)}
+										</FlexItem>
+									</Flex>
+								</PanelBody>
+							)}
+							{tab.name === "link-settings" && (
 								<>
 									<PanelBody title={__("Add Links")}>
 										<Flex direction="column">

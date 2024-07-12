@@ -103,6 +103,24 @@ function Edit({
     menuColor
   } = attributes;
 
+  // Drag and Drop Handlers
+  const [draggedItemIndex, setDraggedItemIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)(null);
+  const handleDragStart = index => () => {
+    setDraggedItemIndex(index);
+  };
+  const handleDragOver = index => e => {
+    e.preventDefault();
+  };
+  const handleDrop = index => () => {
+    const newLinks = [...links];
+    const [draggedItem] = newLinks.splice(draggedItemIndex, 1);
+    newLinks.splice(index, 0, draggedItem);
+    setAttributes({
+      links: newLinks
+    });
+    setDraggedItemIndex(null);
+  };
+
   // Remove Nav Item
   const removeNavItem = index => {
     const newLinks = [...links];
@@ -147,16 +165,20 @@ function Edit({
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TabPanel, {
     activeClass: "active-tab",
     tabs: [{
-      name: "links-settings",
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Link Settings"),
+      name: "link-settings",
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Links"),
       className: "links-settings-tab"
     }, {
-      name: "menu-settings",
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Menu Settings"),
-      className: "menu-settings-tab"
+      name: "nav-order",
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Order"),
+      className: "nav-order-tab"
+    }, {
+      name: "mobile-settings",
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile"),
+      className: "mobile-settings-tab"
     }]
-  }, tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, tab.name === "menu-settings" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Menu Settings")
+  }, tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, tab.name === "mobile-settings" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile Settings")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
     direction: "column"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "This is for the hamburger menu icon which will be shown on mobile. To preview the menu resize the editor window to less than 600px wide.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ColorPalette, {
@@ -167,7 +189,22 @@ function Edit({
     })),
     value: menuColor,
     onChange: onChangeFill
-  })))), tab.name === "links-settings" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+  })))), tab.name === "nav-order" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Order")
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
+    direction: "column"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop the links below to change the order.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, links.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "nav-order-list"
+  }, links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    key: index,
+    draggable: true,
+    onDragStart: handleDragStart(index),
+    onDragOver: handleDragOver(index),
+    onDrop: handleDrop(index),
+    style: {
+      cursor: "move"
+    }
+  }, navItem.text))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Nothing to list"))))), tab.name === "link-settings" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Links")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
     direction: "column"

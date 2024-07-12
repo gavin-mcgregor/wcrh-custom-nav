@@ -39,7 +39,11 @@ if (!empty($attributes['links'])) {
 	<ul>
 		<?php foreach ($links as $link) : ?>
 			<li>
-				<a href="<?php echo isset($link['url']) ? $link['url'] : '#'; ?>" target="<?php echo isset($link['target']) ? $link['target'] : '_self'; ?>"><?php echo isset($link['text']) ? $link['text'] : ''; ?></a>
+				<?php if (isset($link['group']) && $link['group'] != true) : ?>
+					<a href="<?php echo isset($link['url']) ? $link['url'] : '#'; ?>" target="<?php echo isset($link['target']) ? $link['target'] : '_self'; ?>"><?php echo isset($link['text']) ? $link['text'] : ''; ?></a>
+				<?php else : ?>
+					<span><?php echo isset($link['text']) ? $link['text'] : ''; ?></span>
+				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
 		<li>

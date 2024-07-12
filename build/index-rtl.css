@@ -6,3 +6,24 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+.nav-order-list li {
+  border: 1px solid #949494;
+  border-radius: 2px;
+  padding: 6px calc(1rem + 8px) 6px 8px;
+  height: 32px;
+  width: 100%;
+  position: relative;
+}
+.nav-order-list li::before {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 100%;
+  top: 0;
+  right: 0;
+  border-left: 1px solid #949494;
+  background-image: url(data:image/svg+xml;base64,PHN2ZwoJaWQ9ImRyYWciCgl4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCgl2ZXJzaW9uPSIxLjEiCgl2aWV3Qm94PSIwIDAgMTIgMjgiCiAgICBzdHlsZT0iZmlsbDogIzk0OTQ5NCIKPgoJPHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iMCIgeT0iMCIvPgoJPHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iOCIgeT0iMCIvPgoKICAgIDxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHg9IjAiIHk9IjgiLz4KCTxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHg9IjgiIHk9IjgiLz4KCiAgICA8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4PSIwIiB5PSIxNiIvPgoJPHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iOCIgeT0iMTYiLz4KCgk8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4PSIwIiB5PSIyNCIvPgoJPHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iOCIgeT0iMjQiLz4KCjwvc3ZnPg==);
+  background-repeat: no-repeat;
+  background-size: 0.25rem;
+  background-position: center;
+}

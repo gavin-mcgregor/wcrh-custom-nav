@@ -1,0 +1,20 @@
+<svg
+	id="drag"
+	xmlns="http://www.w3.org/2000/svg"
+	version="1.1"
+	viewBox="0 0 12 28"
+    style="fill: #949494"
+>
+	<rect width="4" height="4" x="0" y="0"/>
+	<rect width="4" height="4" x="8" y="0"/>
+
+    <rect width="4" height="4" x="0" y="8"/>
+	<rect width="4" height="4" x="8" y="8"/>
+
+    <rect width="4" height="4" x="0" y="16"/>
+	<rect width="4" height="4" x="8" y="16"/>
+
+	<rect width="4" height="4" x="0" y="24"/>
+	<rect width="4" height="4" x="8" y="24"/>
+
+</svg>
