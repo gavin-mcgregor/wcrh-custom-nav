@@ -162,6 +162,14 @@ function Edit({
       setSvgContent(dataStyled);
     });
   }, [menuColor]);
+
+  // Array for top level nav items
+  const [parentNavItems, setparentNavItems] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(() => {
+    const newLinkArray = [];
+    links.map(option => option.group && newLinkArray.push(option));
+    setparentNavItems(newLinkArray);
+  }, [links]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TabPanel, {
     activeClass: "active-tab",
     tabs: [{
@@ -193,9 +201,9 @@ function Edit({
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Order")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
     direction: "column"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop the links below to change the order.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, links.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop the links below to change the order.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, parentNavItems.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "nav-order-list"
-  }, links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+  }, parentNavItems.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     key: index,
     draggable: true,
     onDragStart: handleDragStart(index),
@@ -214,15 +222,18 @@ function Edit({
       const newNavItem = {
         text: "",
         url: "",
-        target: "_blank",
-        group: false
+        target: "_self",
+        group: false,
+        isChild: false,
+        parentMenu: "",
+        id: links.length
       };
       setAttributes({
         links: [...links, newNavItem]
       });
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Link"))))), links && links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(`Nav Item ${index + 1}: ${navItem.text}`),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(`— ${navItem.text ? `${navItem.text}` : "New Nav Item"} ${navItem.isChild ? "(Submenu)" : "(Top Level)"}`),
     key: index,
     initialOpen: false
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
@@ -248,8 +259,24 @@ function Edit({
     onChange: value => updateNavItem(index, value, "target")
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     checked: !!navItem.group,
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Item has submenu"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Has Submenu?"),
     onChange: value => updateNavItem(index, value, "group")
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    checked: !!navItem.isChild,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Has Parent?"),
+    onChange: value => updateNavItem(index, value, "isChild")
+  }), navItem.isChild && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add to Submenu"),
+    value: navItem.parentMenu,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Please Select Parent"),
+      value: "",
+      disabled: true
+    }, ...parentNavItems.map(option => ({
+      label: option.text,
+      value: option.id
+    }))],
+    onChange: value => updateNavItem(index, value, "parentMenu")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
     variant: "secondary",
     onClick: () => removeNavItem(index)
@@ -261,7 +288,9 @@ function Edit({
     dangerouslySetInnerHTML: {
       __html: svgContent
     }
-  }), links.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, links.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+  }), links.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "toplevel"
+  }, links.map((navItem, index) => !navItem.isChild && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     key: index
   }, navItem.text)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Close Menu")) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Nothing to list"))));
 }

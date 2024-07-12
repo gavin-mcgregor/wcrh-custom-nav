@@ -7,6 +7,10 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+.has-background * {
+  background-color: inherit;
+}
+
 .wp-block-wcrh-wcrh-custom-nav {
   display: flex;
   gap: 1rem;
@@ -21,15 +25,37 @@
 
 .wp-block-wcrh-wcrh-custom-nav li {
   list-style: none;
+  position: relative;
 }
 
-.wp-block-wcrh-wcrh-custom-nav li:last-of-type {
+.wp-block-wcrh-wcrh-custom-nav .toplevel > li:last-of-type {
   display: none;
 }
 
 .wp-block-wcrh-wcrh-custom-nav a {
   text-decoration: none;
   transition: color 0.3s ease-in;
+}
+
+.wp-block-wcrh-wcrh-custom-nav .submenu {
+  display: none;
+}
+
+.wp-block-wcrh-wcrh-custom-nav .nav-item:hover .submenu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  right: -1rem;
+  padding: 0.5rem 1rem;
+}
+
+.wp-block-wcrh-wcrh-custom-nav .nav-item:hover {
+  cursor: pointer;
+}
+
+.wp-block-wcrh-wcrh-custom-nav .submenu li {
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
@@ -40,7 +66,7 @@
     max-height: 100vh;
     overflow: hidden;
   }
-  .wp-block-wcrh-wcrh-custom-nav ul {
+  .wp-block-wcrh-wcrh-custom-nav .toplevel {
     display: none;
     position: absolute;
     z-index: 2;
@@ -53,10 +79,10 @@
     transform: translateX(100vw);
     transition: transform 0.3s ease-in;
   }
-  .menu-open .wp-block-wcrh-wcrh-custom-nav ul.anim {
+  .menu-open .wp-block-wcrh-wcrh-custom-nav .toplevel.anim {
     transform: translateX(0);
   }
-  .menu-open .wp-block-wcrh-wcrh-custom-nav ul.visible {
+  .menu-open .wp-block-wcrh-wcrh-custom-nav .toplevel.visible {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,8 +90,17 @@
   }
   .menu-open .wp-block-wcrh-wcrh-custom-nav ul {
     font-size: var(--wp--preset--font-size--large);
+    text-align: center;
   }
-  .wp-block-wcrh-wcrh-custom-nav li:last-of-type {
+  .menu-open .wp-block-wcrh-wcrh-custom-nav .submenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .menu-open .wp-block-wcrh-wcrh-custom-nav span {
+    display: none;
+  }
+  .wp-block-wcrh-wcrh-custom-nav .toplevel > li:last-of-type {
     display: block;
     margin-top: 2rem;
   }

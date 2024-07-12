@@ -22,6 +22,7 @@ import {
 	ToggleControl,
 	RadioControl,
 	ColorPalette,
+	SelectControl,
 } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 
@@ -107,6 +108,14 @@ export default function Edit({ attributes, setAttributes }) {
 			});
 	}, [menuColor]);
 
+	// Array for top level nav items
+	const [parentNavItems, setparentNavItems] = useState([]);
+	useEffect(() => {
+		const newLinkArray = [];
+		links.map((option) => option.group && newLinkArray.push(option));
+		setparentNavItems(newLinkArray);
+	}, [links]);
+
 	return (
 		<>
 			<InspectorControls>
@@ -163,9 +172,9 @@ export default function Edit({ attributes, setAttributes }) {
 											<p>Drag and drop the links below to change the order.</p>
 										</FlexItem>
 										<FlexItem>
-											{links.length > 0 ? (
+											{parentNavItems.length > 0 ? (
 												<ul className="nav-order-list">
-													{links.map((navItem, index) => (
+													{parentNavItems.map((navItem, index) => (
 														<li
 															key={index}
 															draggable
@@ -198,8 +207,11 @@ export default function Edit({ attributes, setAttributes }) {
 														const newNavItem = {
 															text: "",
 															url: "",
-															target: "_blank",
+															target: "_self",
 															group: false,
+															isChild: false,
+															parentMenu: "",
+															id: links.length,
 														};
 														setAttributes({ links: [...links, newNavItem] });
 													}}
@@ -212,7 +224,11 @@ export default function Edit({ attributes, setAttributes }) {
 									{links &&
 										links.map((navItem, index) => (
 											<PanelBody
-												title={__(`Nav Item ${index + 1}: ${navItem.text}`)}
+												title={__(
+													`— ${
+														navItem.text ? `${navItem.text}` : "New Nav Item"
+													} ${navItem.isChild ? "(Submenu)" : "(Top Level)"}`,
+												)}
 												key={index}
 												initialOpen={false}
 											>
@@ -249,11 +265,38 @@ export default function Edit({ attributes, setAttributes }) {
 														)}
 														<ToggleControl
 															checked={!!navItem.group}
-															label={__("Nav Item has submenu")}
+															label={__("Has Submenu?")}
 															onChange={(value) =>
 																updateNavItem(index, value, "group")
 															}
 														/>
+														<ToggleControl
+															checked={!!navItem.isChild}
+															label={__("Has Parent?")}
+															onChange={(value) =>
+																updateNavItem(index, value, "isChild")
+															}
+														/>
+														{navItem.isChild && (
+															<SelectControl
+																label={__("Add to Submenu")}
+																value={navItem.parentMenu}
+																options={[
+																	{
+																		label: __("Please Select Parent"),
+																		value: "",
+																		disabled: true,
+																	},
+																	...parentNavItems.map((option) => ({
+																		label: option.text,
+																		value: option.id,
+																	})),
+																]}
+																onChange={(value) =>
+																	updateNavItem(index, value, "parentMenu")
+																}
+															/>
+														)}
 														<Button
 															variant="secondary"
 															onClick={() => removeNavItem(index)}
@@ -277,10 +320,11 @@ export default function Edit({ attributes, setAttributes }) {
 					dangerouslySetInnerHTML={{ __html: svgContent }}
 				/>
 				{links.length > 0 ? (
-					<ul>
-						{links.map((navItem, index) => (
-							<li key={index}>{navItem.text}</li>
-						))}
+					<ul className="toplevel">
+						{links.map(
+							(navItem, index) =>
+								!navItem.isChild && <li key={index}>{navItem.text}</li>,
+						)}
 						<li>Close Menu</li>
 					</ul>
 				) : (

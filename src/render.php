@@ -36,16 +36,39 @@ if (!empty($attributes['links'])) {
 	<button id="open-mobile-menu">
 		<?php echo $svg; ?>
 	</button>
-	<ul>
+	<ul class="toplevel">
 		<?php foreach ($links as $link) : ?>
-			<li>
-				<?php if (isset($link['group']) && $link['group'] != true) : ?>
+			<?php if (isset($link['isChild']) && $link['isChild'] === true) : ?>
+			<?php elseif (isset($link['group']) && $link['group'] != true) : ?>
+				<!-- Top Level -->
+				<li class="nav-item">
 					<a href="<?php echo isset($link['url']) ? $link['url'] : '#'; ?>" target="<?php echo isset($link['target']) ? $link['target'] : '_self'; ?>"><?php echo isset($link['text']) ? $link['text'] : ''; ?></a>
-				<?php else : ?>
+				</li>
+			<?php else : ?>
+				<!-- Top Level -->
+				<li class="nav-item">
 					<span><?php echo isset($link['text']) ? $link['text'] : ''; ?></span>
-				<?php endif; ?>
-			</li>
+					<!-- Submenu -->
+					<ul class="submenu">
+						<?php $index = 0 ?>
+						<?php foreach ($links as $sub_link) : ?>
+							<?php if (!isset($sub_link['parentMenu'])) {
+								continue;
+							} elseif ($sub_link['parentMenu'] != $link['id']) {
+								continue;
+							} elseif ($sub_link['parentMenu'] === $sub_link['id']) {
+								continue;
+							} ?>
+							<li class="nav-item">
+								<a href="<?php echo isset($sub_link['url']) ? $sub_link['url'] : '#'; ?>" target="<?php echo isset($sub_link['target']) ? $sub_link['target'] : '_self'; ?>"><?php echo isset($sub_link['text']) ? $sub_link['text'] : ''; ?></a>
+							</li>
+							<?php $index++ ?>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endif; ?>
 		<?php endforeach; ?>
+		<!-- Close on Mobile -->
 		<li>
 			<button id="close-mobile-menu">Close Menu</button>
 		</li>
