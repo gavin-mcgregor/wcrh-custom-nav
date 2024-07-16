@@ -109,14 +109,6 @@ export default function Edit({ attributes, setAttributes }) {
 	}, [menuColor]);
 
 	// Array for top level nav items
-	const [toplevelNavItems, setToplevelNavItems] = useState([]);
-	useEffect(() => {
-		const newLinkArray = [];
-		links.map((option) => !option.isChild && newLinkArray.push(option));
-		setToplevelNavItems(newLinkArray);
-	}, [links]);
-
-	// Array for parent nav items
 	const [parentNavItems, setparentNavItems] = useState([]);
 	useEffect(() => {
 		const newLinkArray = [];
@@ -177,15 +169,12 @@ export default function Edit({ attributes, setAttributes }) {
 								<PanelBody title={__("Nav Order")}>
 									<Flex direction="column">
 										<FlexItem>
-											<p>
-												Drag and drop the links below to change the order of the
-												top level navigation.
-											</p>
+											<p>Drag and drop the links below to change the order.</p>
 										</FlexItem>
 										<FlexItem>
-											{toplevelNavItems.length > 0 ? (
+											{parentNavItems.length > 0 ? (
 												<ul className="nav-order-list">
-													{toplevelNavItems.map((navItem, index) => (
+													{parentNavItems.map((navItem, index) => (
 														<li
 															key={index}
 															draggable

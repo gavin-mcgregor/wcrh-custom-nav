@@ -164,6 +164,14 @@ function Edit({
   }, [menuColor]);
 
   // Array for top level nav items
+  const [toplevelNavItems, setToplevelNavItems] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(() => {
+    const newLinkArray = [];
+    links.map(option => !option.isChild && newLinkArray.push(option));
+    setToplevelNavItems(newLinkArray);
+  }, [links]);
+
+  // Array for parent nav items
   const [parentNavItems, setparentNavItems] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)([]);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useEffect)(() => {
     const newLinkArray = [];
@@ -201,9 +209,9 @@ function Edit({
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Nav Order")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Flex, {
     direction: "column"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop the links below to change the order.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, parentNavItems.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop the links below to change the order of the top level navigation.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FlexItem, null, toplevelNavItems.length > 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "nav-order-list"
-  }, parentNavItems.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+  }, toplevelNavItems.map((navItem, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     key: index,
     draggable: true,
     onDragStart: handleDragStart(index),
