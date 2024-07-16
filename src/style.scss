@@ -104,8 +104,19 @@
 		align-items: center;
 	}
 
+	.wp-block-wcrh-wcrh-custom-nav .nav-item:hover .submenu {
+		position: static;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
 	.menu-open .wp-block-wcrh-wcrh-custom-nav span {
 		display: none;
+	}
+
+	.wp-block-wcrh-wcrh-custom-nav .submenu li {
+		white-space: unset;
 	}
 
 	.wp-block-wcrh-wcrh-custom-nav .toplevel > li:last-of-type {
