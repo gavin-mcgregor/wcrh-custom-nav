@@ -1,9 +1,9 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "wcrh/wcrh-custom-nav",
+  "name": "wcrh/custom-nav",
   "version": "0.1.0",
-  "title": "Custom Nav",
+  "title": "Navigation",
   "category": "custom-block",
   "example": {},
   "attributes": {
@@ -18,7 +18,7 @@
   "supports": {
     "html": false
   },
-  "textdomain": "wcrh-custom-nav",
+  "textdomain": "custom-nav",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
