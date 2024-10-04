@@ -43,6 +43,7 @@
 
 .wp-block-wcrh-custom-nav .nav-item:hover .submenu {
   position: absolute;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 0;
